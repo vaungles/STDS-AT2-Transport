@@ -1,8 +1,9 @@
 ######### AT2 Data Analysis Project - Regression Model #########
 
-##### Set working directory
+##### Clear Workspace
 rm(list=ls())
 
+##### Set working directory
 setwd("H:/V/UTS/0. MDSI/36103 Statistical Thinking for Data Science/AT2/Model Files")
 
 ##### Load libraries
