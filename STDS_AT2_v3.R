@@ -4,7 +4,7 @@
 rm(list=ls())
 
 ##### Set working directory
-setwd("H:/V/UTS/0. MDSI/36103 Statistical Thinking for Data Science/AT2/Model Files")
+setwd("D:/OneDrive - UTS/36103/AT2B/Files for R Script")
 
 ##### Load libraries
 library(dplyr)
@@ -212,6 +212,9 @@ colnames(unified)[4] <- "Pop_Density"
 colnames(unified)[5] <- "Socio_Eco_Ind"
 colnames(unified)[6] <- "LGA_Pop"
 colnames(unified)[7] <- "Transport_Services"
+
+## Saving the Unified data.frame to disk
+write.csv(unified, file = "unified.csv")
 
 ##### Correlation Analysis #####
 cor_matrix <- cor(unified[, c(2:7)], use = 'complete.obs')
