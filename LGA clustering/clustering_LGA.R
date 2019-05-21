@@ -19,10 +19,20 @@ library(cluster)
 
 #Clustering Algo to find similar LGAs
 unified_new <- read.csv("clustering-input.csv")
-unif <- unified_new
-unif <- unif[-20,]
-rownames(unif) <- unif[,1]
-unif[,1:3] <- NULL
+unified3 <- read.csv("unified3.csv")
+unified31 <- unified3[complete.cases(unified3),]
+unified31 <- unified3 %>% select (LGA, seifa_value, Pop_Dens_km2, num_service)
+unified32 <- unique(unified31)
+
+unified32 <- unified32[-22,]
+rownames(unified32) <- unified32[,1]
+unified32[,1] <- NULL
+unified33 <- unified32[complete.cases(unified32),]
+
+# unif <- unified_new
+# unif <- unif[-20,]
+# rownames(unif) <- unif[,1]
+# unif[,1:3] <- NULL
 
 
 # function to find cosine distance
@@ -35,6 +45,8 @@ cs <- cosineSim(as.matrix(unif))
 # calculate cosine distance
 cd <- 1-cs
 
+cs <- cosineSim(as.matrix(unified33))
+cd <- 1-cs
 #---------------------------------------------------------------------------------
 #run hierarchical clustering using cosine distance
 groups <- hclust(cd,method="ward.D")
@@ -44,6 +56,7 @@ plot(groups, hang=-1)
 rect.hclust(groups,5)
 hclusters_cosine <- cutree(groups,5)
 write.csv(hclusters_cosine,"hclusters_cosine.csv")
+
 
 
 #---------------------------------------------------------------------------------
@@ -57,9 +70,9 @@ write.csv(kfit$cluster,file="KMClustGroups2_cosine.csv")
 
 
 # loop to find optimal number of clusters for K-Mean clustering
-wss <- 2:(nrow(unif)-1)
-for (i in 2:(nrow(unif)-1)) wss[i] <- sum(kmeans(cd,centers=i,nstart=25)$withinss)
-plot(2:(nrow(unif)-1), wss[2:(nrow(unif)-1)], type="b", xlab="Number of Clusters",
+wss <- 2:(nrow(unified33)-1)
+for (i in 2:(nrow(unified33)-1)) wss[i] <- sum(kmeans(cd,centers=i,nstart=25)$withinss)
+plot(2:(nrow(unified33)-1), wss[2:(nrow(unified33)-1)], type="b", xlab="Number of Clusters",
      ylab="Within groups sum of squares") 
 
 
